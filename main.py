@@ -19,19 +19,25 @@ def getFormat(formatFile: TextIOWrapper):
     Args:
         formatFile (TextIOWrapper): Format file
 
+    Raises:
+        err: Other errors
+
     Returns:
         list: A list of dictionary
     """
-    formats = []
-    reader = csv.DictReader(formatFile, delimiter=',')
-    for format in reader:
-        for key, value in format.items():
-            key = key.strip()
-            value = value.strip()
-        format['width'] = int(format['width'])
-        format['datatype'] = datatype(format['datatype'])
-        formats.append(format)
-    return formats
+    try:
+        formats = []
+        reader = csv.DictReader(formatFile, delimiter=',')
+        for format in reader:
+            for key, value in format.items():
+                key = key.strip()
+                value = value.strip()
+            format['width'] = int(format['width'])
+            format['datatype'] = datatype(format['datatype'])
+            formats.append(format)
+        return formats
+    except BaseException as err:
+        raise err
 
 
 def getData(formatData: list, dataFormatFile: TextIOWrapper):
@@ -44,7 +50,6 @@ def getData(formatData: list, dataFormatFile: TextIOWrapper):
 
     Raises:
         ValueError: A line in the file does not have the same length specified by the format file
-        ValueError: A value in a line which is meant to be a integer value is not an integer type
         ValueError: A value in a line which is meant to be a boolean value is neither 0 nor 1
         err: Other errors
 
@@ -77,11 +82,7 @@ def getData(formatData: list, dataFormatFile: TextIOWrapper):
                 if data_type == datatype.TEXT:
                     substring_val = substring
                 elif data_type == datatype.INTEGER:
-                    try:
-                        substring_val = int(substring)
-                    except ValueError:
-                        raise ValueError(
-                            f'{substring} is not an integer type at line {line_no}')
+                    substring_val = int(substring)
                 else:
                     if substring == '1':
                         substring_val = True
@@ -116,12 +117,13 @@ def parse_flatfile(datafilename: str, formatfilename: str):
 
 
 def main():
-    try:
-        output = parse_flatfile(
-            "data/testformat1_2015-06-28.txt", "specs/testformat1.csv")
-        print(output)
-    except BaseException as err:
-        print(err)
+    input = [["data/testformat1_2015-06-28.txt", "specs/testformat1.csv"]]
+    for files in input:
+        try:
+            output = parse_flatfile(files[0], files[1])
+            print(output)
+        except BaseException as err:
+            print(err)
 
 
 if __name__ == '__main__':
