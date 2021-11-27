@@ -32,6 +32,8 @@ def getFormat(formatFile: TextIOWrapper):
             for key, value in format.items():
                 key = key.strip()
                 value = value.strip()
+            if format['column name'] == None or format['width'] == None or format['datatype'] == None:
+                raise KeyError('Invalid specs')
             format['width'] = int(format['width'])
             format['datatype'] = datatype(format['datatype'])
             formats.append(format)

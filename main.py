@@ -3,10 +3,7 @@ from parse_flatfile import parse_flatfile
 
 def main():
     input = [
-        ["data/testformat1_2015-06-28.txt", "specs/testformat1.csv"],
-        ["data/testformat1_2015-06-29.txt", "specs/testformat1.csv"],
-        ["data/testformat1_2015-06-28.txt", "specs/testforma1.csv"],
-        ["data/testformat1_2015-06-29.txt", "specs/testforma1.csv"],
+        ["data/testformat7_2015-06-28.txt", "specs/testformat7.csv"],
     ]
     for idx, files in enumerate(input):
         try:
