@@ -13,7 +13,7 @@ class TestParseFlatFile(unittest.TestCase):
         self.assertRaises(FileNotFoundError, parse_flatfile,
                           'data/testformat1_2015-06-28.txt', 'not_exists_file')
         self.assertRaises(FileNotFoundError, parse_flatfile,
-                          'not_exists_file', 'not_exists_file')
+                          'not_exists_file', 'another_not_exists_file')
 
         # Success case
         self.assertEqual(parse_flatfile(
