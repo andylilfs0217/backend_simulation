@@ -35,7 +35,11 @@ def getFormat(formatFile: TextIOWrapper):
             if format['column name'] == None or format['width'] == None or format['datatype'] == None:
                 raise KeyError('Invalid specs')
             format['width'] = int(format['width'])
+            if format['width'] < 0:
+                raise ValueError('The width of a column must be non-negative.')
             format['datatype'] = datatype(format['datatype'])
+            if format['datatype'] == datatype.BOOLEAN and format['width'] != 1:
+                raise ValueError('The width of a column must be 1 if the datatype is BOOLEAN.')
             formats.append(format)
         return formats
     except BaseException as err:

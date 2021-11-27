@@ -46,6 +46,14 @@ class TestParseFlatFile(unittest.TestCase):
         self.assertRaises(ValueError, parse_flatfile,
                           'data/testformat4_2015-06-28.txt', 'specs/testformat4.csv')
 
+        # spec['width'] is smaller than 0
+        self.assertRaises(ValueError, parse_flatfile,
+                          'data/testformat8_2015-06-28.txt', 'specs/testformat8.csv')
+
+        # spec['width'] is not 1 while spec['datatype'] is 'BOOLEAN'
+        self.assertRaises(ValueError, parse_flatfile,
+                          'data/testformat9_2015-06-28.txt', 'specs/testformat9.csv')
+
 
 if __name__ == '__main__':
     unittest.main()
