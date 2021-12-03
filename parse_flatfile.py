@@ -10,6 +10,7 @@ class datatype(Enum):
     TEXT = 'TEXT'
     BOOLEAN = 'BOOLEAN'
     INTEGER = 'INTEGER'
+    POSITIVE = 'non-negative'
 
 
 def getFormat(formatFile: TextIOWrapper):
@@ -32,6 +33,7 @@ def getFormat(formatFile: TextIOWrapper):
             for key, value in format.items():
                 key = key.strip()
                 value = value.strip()
+            # Checking null value for the
             if format['column name'] == None or format['width'] == None or format['datatype'] == None:
                 raise KeyError('Invalid specs')
             format['width'] = int(format['width'])
@@ -39,7 +41,10 @@ def getFormat(formatFile: TextIOWrapper):
                 raise ValueError('The width of a column must be non-negative.')
             format['datatype'] = datatype(format['datatype'])
             if format['datatype'] == datatype.BOOLEAN and format['width'] != 1:
-                raise ValueError('The width of a column must be 1 if the datatype is BOOLEAN.')
+                raise ValueError(
+                    'The width of a column must be 1 if the datatype is BOOLEAN.')
+            if format['datatype'] == datatype.POSITIVE:
+                raise
             formats.append(format)
         return formats
     except BaseException as err:
